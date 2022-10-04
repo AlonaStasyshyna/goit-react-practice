@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 
+import { Paragraf, Span } from './User.styled';
+
 export const User = ({ user: { name, email } }) => {
+    const isOrange = email.includes('biz')
+
     return (
             <>
-            <p>Name: {name}</p>
-            <p>Email: {email}</p>
+            <Paragraf>Name: <Span>{name}</Span></Paragraf>
+            <Paragraf>Email: <Span isOrange={isOrange}>{email}</Span></Paragraf>
             </>
     );
 }
