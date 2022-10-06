@@ -1,9 +1,11 @@
-import { Component} from "react";
+import { Component } from "react";
+import { nanoid } from 'nanoid'
 // import { User } from "./User/User";
 import { UsersList } from "./UsersList/UsersList";
 // import { Section } from "./Section/Section";
 import { users } from "data/users";
 import { Button } from "./Button/Button";
+import { AddUserForm } from "./AddUserForm/AddUserForm";
 
 export class App extends Component {
   state = {
@@ -34,21 +36,36 @@ export class App extends Component {
     }))
   }
 
+  addUser = (data) => {
+    const newUser = {
+      ...data,
+      id: nanoid(),
+      hasJob: false,
+    }
+    
+    this.setState((prevState) => ({
+      users: [...prevState.users, newUser]
+    }))
+    }
+
   render() {
     const { users, isListShown } = this.state;
 
     return (
       <>
         {isListShown
-          ? <UsersList
-            users={users}
-            userDelete={this.userDelete}
-            changeJobStatus={this.changeJobStatus}
-            />
+          ? <>
+              <AddUserForm addUser={this.addUser} />
+              <UsersList
+                users={users}
+                userDelete={this.userDelete}
+                changeJobStatus={this.changeJobStatus}
+              />
+            </>
           : <Button
-            type="button"
-            text="Show users list"
-            clickHandler={this.onClickHandler}
+              type="button"
+              text="Show users list"
+              clickHandler={this.onClickHandler}
             />
         }
       </>
